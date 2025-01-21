@@ -1,1 +1,6 @@
 opencv-python-headless
+scipy
+imutils
+dlib
+pygame
+facial-emotion-recognition
