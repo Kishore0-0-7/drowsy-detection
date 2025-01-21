@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drowsiness Detection</title>
+  </head>
+  <body>
+    <h1>Drowsiness Detection</h1>
+    <video id="video" width="640" height="480"></video>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+    <script>
+      const video = document.getElementById("video");
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+          video.play();
+          setInterval(() => {
+            const frame = getFrameFromVideo(video);
+            axios.get("/drowsiness_detection")
+              .then(response => {
+                const output = response.data.output;
+                document.getElementById("output").innerHTML = `Drowsiness detected: ${output}`;
+              })
+              .catch(error => {
+                console.error(error);
+              });
+          }, 1000); // Send a request every 1 second
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    </script>
+  </body>
+</html>
