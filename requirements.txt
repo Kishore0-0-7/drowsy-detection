@@ -1,6 +1,6 @@
 opencv-python-headless
 scipy
 imutils
-dlib
+dlib==19.24.2
 pygame
 facial-emotion-recognition
