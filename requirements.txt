@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 opencv-python==4.8.0.74
 scipy==1.11.1
 imutils==0.5.4
@@ -7,3 +8,12 @@ streamlit==1.24.0
 numpy==1.24.3
 mediapipe==0.10.1
 protobuf==3.20.3
+=======
+opencv-python-headless
+scipy
+imutils
+dlib-19.22.99-cp39-cp39-win_amd64.whl
+pygame
+facial-emotion-recognition
+dlib==19.24.2
+>>>>>>> c2b05f80327719908b9e3248d7af019d85d04d94
