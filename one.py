@@ -13,7 +13,7 @@ sound = pygame.mixer.Sound("alarm.wav")
 # Constants
 earThresh = 0.3  # Distance between vertical eye coordinates threshold
 earFrames = 48   # Consecutive frames for eye closure
-shapePredictor = "shape_predictor_68_face_landmarks (2).dat"  # Path to shape predictor file
+shapePredictor = "shape_predictor_68_face_landmarks.dat"  # Path to shape predictor file
 
 # Initialize serial communication (adjust the port name as needed)
 arduino_port = "COM3"  # Change this to the correct port

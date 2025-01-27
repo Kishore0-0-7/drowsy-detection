@@ -26,7 +26,7 @@ count = 0
 alarm_triggered = False
 earThresh = 0.3
 earFrames = 30
-shapePredictor = "shape_predictor_68_face_landmarks (2).dat"
+shapePredictor = "shape_predictor_68_face_landmarks.dat"
 
 # Initialize emotion recognition
 er = EmotionRecognition(device='cpu')

@@ -1,6 +1,9 @@
-opencv-python-headless
-scipy
-imutils
-dlib-19.22.99-cp39-cp39-win_amd64.whl
-pygame
-facial-emotion-recognition
+opencv-python==4.8.0.74
+scipy==1.11.1
+imutils==0.5.4
+pygame==2.5.0
+facial-emotion-recognition==0.3.0
+streamlit==1.24.0
+numpy==1.24.3
+mediapipe==0.10.1
+protobuf==3.20.3

@@ -24,7 +24,7 @@ count = 0
 alarm_triggered = False
 earThresh = 0.3  # Threshold for eye aspect ratio
 earFrames = 30  # Number of frames for which eyes need to be below threshold
-shapePredictor = "shape_predictor_68_face_landmarks (2).dat"
+shapePredictor = "shape_predictor_68_face_landmarks.dat"
 
 # Initialize emotion recognition
 er = EmotionRecognition(device='cpu')

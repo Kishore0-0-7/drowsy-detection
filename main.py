@@ -25,7 +25,7 @@ count = 0
 
 earThresh = 0.3
 earFrames = 48
-shapePredictor = "shape_predictor_68_face_landmarks (2).dat"
+shapePredictor = "shape_predictor_68_face_landmarks.dat"
 
 cam = cv2.VideoCapture(0)
 detector = dlib.get_frontal_face_detector()

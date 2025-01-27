@@ -33,6 +33,7 @@ st.markdown("""
 st.sidebar.title("Settings")
 earThresh = st.sidebar.slider("EAR Threshold", 0.1, 0.5, 0.3, 0.01)
 earFrames = st.sidebar.slider("Number of Frames", 10, 50, 30, 1)
+timeThresh = st.sidebar.slider("Time Threshold (seconds)", 1, 10, 3, 1)  # New time threshold slider
 
 def eyeAspectRatio(eye):
     A = dist.euclidean(eye[1], eye[5])
@@ -49,6 +50,8 @@ def main():
         st.session_state.alarm_triggered = False
     if 'count' not in st.session_state:
         st.session_state.count = 0
+    if 'drowsy_start_time' not in st.session_state:  # New session state for time tracking
+        st.session_state.drowsy_start_time = None
 
     # Initialize components
     pygame.mixer.init()
@@ -56,7 +59,7 @@ def main():
     
     # Initialize face detection components
     detector = dlib.get_frontal_face_detector()
-    predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks (2).dat")
+    predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
     er = EmotionRecognition(device='cpu')
     (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
     (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
@@ -103,28 +106,36 @@ def main():
 
                 # Drowsiness detection logic
                 if ear < earThresh:
+                    if st.session_state.drowsy_start_time is None:
+                        st.session_state.drowsy_start_time = time.time()
+                    
+                    drowsy_time = time.time() - st.session_state.drowsy_start_time
                     st.session_state.count += 1
-                    if st.session_state.count >= earFrames:
+                    
+                    if st.session_state.count >= earFrames and drowsy_time >= timeThresh:
                         if not st.session_state.alarm_triggered:
                             pygame.mixer.music.play(-1)
                             st.session_state.alarm_triggered = True
                         
-                        cv2.putText(frame, "DROWSINESS ALERT!", (10, 30),
+                        cv2.putText(frame, f"DROWSINESS ALERT! Time: {drowsy_time:.1f}s", (10, 30),
                                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-                        status_placeholder.error("⚠️ DROWSINESS DETECTED!")
+                        status_placeholder.error(f"⚠️ DROWSINESS DETECTED! Duration: {drowsy_time:.1f}s")
                 else:
                     st.session_state.count = 0
+                    st.session_state.drowsy_start_time = None
                     if st.session_state.alarm_triggered:
                         pygame.mixer.music.stop()
                         st.session_state.alarm_triggered = False
                     status_placeholder.success("😊 Alert")
 
                 # Display stats
+                elapsed_time = time.time() - st.session_state.drowsy_start_time if st.session_state.drowsy_start_time else 0.0
                 stats_container.markdown(f"""
                     ### Statistics
                     - Eye Aspect Ratio: {ear:.2f}
                     - Frames Count: {st.session_state.count}
                     - Threshold: {earThresh}
+                    - Time Elapsed: {elapsed_time:.1f}s
                 """)
 
             # Perform emotion recognition
